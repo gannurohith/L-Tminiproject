@@ -20,6 +20,6 @@ Folder | Description
 |SC3|Content Displaying|
 
 # Challenges Faced and How Was It Overcome
-1.To cope up with basics online resources helped me alot.
-2.Cannit run the code in Visual studio online videos helped me alot.
-3.Stackoverflow helped me alot.
+1.To cope up with basics online resources helped me alot.  
+3.Cannot run the code in Visual studio online videos helped me alot.
+4.Stackoverflow helped me alot.
