@@ -1,7 +1,7 @@
-#include<snake_operations.h>
+#include "prototypes.h"
 typedef int bool;
 enum boolEnum { false, true };
-typedef enum boolEnum bool;
+typedef enum boolEnum ;
 struct Location_s
 {
 	int x;
@@ -20,57 +20,54 @@ struct Snake_s
 	int Length;
 };
 typedef struct Snake_s Snake;
-
-#pragma endregion
-
-#pragma region Global Properties
 bool isDead;
 Snake MainSnake;
 Location t;
 Location ActiveFood;
 int Speed;
-#pragma endregion
-#pragma region User Interface
 void VerticalWall() {
 	printf("+");
-	for (int i = 0; i < MAX_X; i++) {
+	int i;
+	for( i = 0; i < MAX_X; i++) {
 		printf("-");
 	}
 	printf("+\n");
 }
 void ShowUI_Row(int y) {
 	printf("|");
-	for (int x = 0; x < MAX_X; x++) {
-		if (MainSnake.Head.x == x && MainSnake.Head.y == y) {
+	int x;
+	for( x = 0; x < MAX_X; x++) {
+		if(MainSnake.Head.x == x && MainSnake.Head.y == y) {
 			printf("@"); continue;
 		}
 		bool isEmpty = true;
-		if (ActiveFood.x == x && ActiveFood.y == y) {
+		if(ActiveFood.x == x && ActiveFood.y == y) {
 			printf("x"); isEmpty = false; continue;
 		}
-		for (int i = 0; i < MainSnake.Length - 1; i++) {
-			if (MainSnake.Tail[i].x == x && MainSnake.Tail[i].y == y) {
+		int i;
+		for( i = 0; i < MainSnake.Length - 1; i++) {
+			if(MainSnake.Tail[i].x == x && MainSnake.Tail[i].y == y) {
 				printf("o"); isEmpty = false; break;
 			}
 		}
-		if (isEmpty == true) printf(" ");
+		if(isEmpty == true) printf(" ");
 	}
 	printf("|\n");
 }
 void ShowUI() {
 	system("cls");
 	VerticalWall();
-	for (int y = 0; y < MAX_Y; y++) {
+	int y;
+	for( y = 0; y < MAX_Y; y++) {
 		ShowUI_Row(y);
 	}
 	VerticalWall();
 }
-#pragma endregion
-#pragma region Game Functions
 bool CheckLocationIfEmpty(Location loc) {
-	if (MainSnake.Head.x == loc.x && MainSnake.Head.y == loc.y) return false;
-	for (int i = 0; i < MainSnake.Length - 1; i++) {
-		if (MainSnake.Tail[i].x == loc.x && MainSnake.Tail[i].y == loc.y) return false;
+	if(MainSnake.Head.x == loc.x && MainSnake.Head.y == loc.y) return false;
+	int i;
+	for( i = 0; i < MainSnake.Length - 1; i++) {
+		if(MainSnake.Tail[i].x == loc.x && MainSnake.Tail[i].y == loc.y) return false;
 	}
 	return true;
 }
@@ -80,20 +77,22 @@ Location FindNearestEmptyLocation(Location loc) {
 	int ScanX_End = loc.x;
 	int ScanY_Start = loc.y;
 	int ScanY_End = loc.y;
-	if (MainSnake.Length == MAX_X * MAX_Y) isDead = true;
+	if(MainSnake.Length == MAX_X * MAX_Y) isDead = true;
 	while (1) {
 		ScanX_Start--;
 		ScanX_End++;
 		ScanY_Start--;
 		ScanY_End++;
-		if (ScanX_Start < 0) ScanX_Start = 0;
-		if (ScanY_Start < 0) ScanY_Start = 0;
-		if (ScanX_End > MAX_X) ScanX_End = MAX_X;
-		if (ScanY_End > MAX_Y) ScanY_End = MAX_Y;
-		for (int x = ScanX_Start; x <= ScanX_End; x++) {
-			for (int y = ScanY_Start; y <= ScanY_End; y++) {
+		if(ScanX_Start < 0) ScanX_Start = 0;
+		if(ScanY_Start < 0) ScanY_Start = 0;
+		if(ScanX_End > MAX_X) ScanX_End = MAX_X;
+		if(ScanY_End > MAX_Y) ScanY_End = MAX_Y;
+		int x;
+		for( x = ScanX_Start; x <= ScanX_End; x++) {
+			int y;
+			for( y = ScanY_Start; y <= ScanY_End; y++) {
 				emptyLoc.x = x; emptyLoc.y = y;
-				if (CheckLocationIfEmpty(emptyLoc) == true) {
+				if(CheckLocationIfEmpty(emptyLoc) == true) {
 					return emptyLoc;
 				}
 			}
@@ -136,14 +135,16 @@ void CheckIfCrashedByWall() {
 void CheckIfCrashedByTail() {
 	if (isDead == true) 
 		return;
-	for (int i = 0; i < MainSnake.Length-1; i++) {
+		int i;
+	for( i = 0; i < MainSnake.Length-1; i++) {
 		if (MainSnake.Head.x == MainSnake.Tail[i].x && MainSnake.Head.y == MainSnake.Tail[i].y) {
 			isDead = true; break;
 		}
 	}
 }
 void SetTail(Location zeroTailBackup) {
-	for (int i = MainSnake.Length-2; i > 1; i--) {
+	int i;
+	for( i = MainSnake.Length-2; i > 1; i--) {
 		MainSnake.Tail[i].x = MainSnake.Tail[i-1].x;
 		MainSnake.Tail[i].y = MainSnake.Tail[i-1].y;
 	}
